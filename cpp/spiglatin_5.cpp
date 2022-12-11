@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include <cstring>
+#include <set>
 using namespace std;
 
 #include <stdio.h>
@@ -29,6 +29,35 @@ string pigaLetter(char c){
 
 }
 
+set<int> detect1LetterWord(string str){
+    //string letters = "";
+    int len = 0;
+    //bool res = false;
+    set<int> indexes;
+
+    for (int i = 0; str[i] != '\0' ; ++i) {
+        len = i;
+    }
+
+    for (int i = 0; i < len; i++) {
+
+
+        if( (str[i-1] == 32) && (str[i+1] == 32)  ){
+            //letters += str[i];
+            cout << "detect i: ";
+            cout << i << endl;
+            indexes.insert(i);
+
+        }
+
+
+    }
+
+
+    return  indexes;
+}
+
+
 string cutToWords(string sentence){
 
     string words;
@@ -45,15 +74,31 @@ string cutToWords(string sentence){
 
     //cout << sentence << endl;
 
-    for (int i = 0; i < len; ++i) {
+            set<int> indexes = detect1LetterWord(sentence);
 
-        if ((sentence[i-1]==32) && (sentence[i+1]==32)) {
+    for (int i = 0; i < len; i++) {
+
+        bool is1Letter = indexes.find(i) != indexes.end();
+
+        cout << "is1Letter i: ";
+        cout << i << endl;
+        cout << "is1Letter: ";
+        cout << is1Letter << endl;
+
+        if (ispunct(sentence[i])) {
+            words += sentence[i];
+            words += " ";
+            cout << "_runs_: ";
+            cout << words << endl;
+            st = i + 2;
+            i++;
+        }
+        else if( is1Letter) {
             words += pigaLetter(sentence[i]);
             st = i + 2;
-            i = st;
+            i++;
             cout << "1 letter: ";
             cout << words << endl;
-
         }
 
 
@@ -69,7 +114,7 @@ string cutToWords(string sentence){
                     cout << "_runs_: ";
                     cout << words << endl;
                     st = i + 2;
-                    i = st;
+                    i++;
                 }else{
                     for (int j = 0; j < lng; ++j) {
                         word += sentence[st + j];
@@ -77,7 +122,11 @@ string cutToWords(string sentence){
                         cout << word << endl;
                     }
                     st = i + 2;
-                    i = st;
+                    i++;
+                    cout << "i: ";
+                    cout << i << endl;
+                    cout << "sentence[i]: ";
+                    cout << sentence[i] << endl;
                     words += pigaWord(word);
                     cout << "!ispunct normal word: ";
                     cout << words << endl;
@@ -85,13 +134,10 @@ string cutToWords(string sentence){
 
             }
 
-            else if (ispunct(sentence[i])) {
-                words += sentence[i];
-                words += " ";
-                cout << "_runs_: ";
-                cout << words << endl;
-                st = i + 2;
-                i = st;
+
+            else{
+                words += "_ERROR_";
+
             }
 
 
@@ -107,29 +153,6 @@ string cutToWords(string sentence){
 }
 
 
-string detect1LetterWord(string str){
-    string letters = "x ";
-    int len = 0;
-
-    for (int i = 0; str[i] != '\0' ; ++i) {
-        len = i;
-    }
-
-    for (int i = 0; i < len; i++) {
-
-
-        if( (str[i-1] == 32) && (str[i+1] == 32)  ){
-
-            letters += str[i];
-            letters += " ";
-        }
-
-
-    }
-
-
-    return  letters;
-}
 
 
 std::string pig_it(std::string str)
@@ -170,14 +193,14 @@ int main(){
 
     //vector<string> result;
 
-   //res =  pig_it(t3);
-   res = detect1LetterWord(t3);
+   res =  pig_it(t3);
+   //res = detect1LetterWord(t3);
   //res = pigaWord(tword);
     //result = cutToWords(t1);
 
-    //cout << t3 << endl;
+    cout << t3 << endl;
    cout << res << endl;
-   //cout << t3Res << endl;
+   cout << t3Res << endl;
 
    //cout << result << endl;
 
